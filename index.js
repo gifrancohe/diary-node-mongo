@@ -1,18 +1,28 @@
 var bodyParser   = require('body-parser'),
     http         = require('http'),
-    express      = require('express')  
+    express      = require('express'),
+    mongoose     = require('mongoose')
+
+var url = "mongodb://localhost/diary"
 
 var port         = port = process.env.PORT || 3000, 
     app          = express(),
     Server       = http.createServer(app)     
 
-var Routing = require('./data/requestRounting.js')
+var Routing = require('./server/requestRounting.js')
+var Insert  = require('./server/insertUser.js')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(express.static('public'))
+app.use(express.static('client'))
 
-app.use('/searcher', Routing)
+app.use('/', Routing)
+
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
+Insert.createUser((error, result) => {
+    if(error) console.log(error)
+    console.log(result)
+})
 
 Server.listen(port, function(){
   console.log('Server is listeing in port: ' + port)
