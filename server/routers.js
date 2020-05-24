@@ -3,9 +3,9 @@ var     express = require('express'),
 
 var getData = require('./getData.js')
 
-Router.get('/init', (req, res) => {
-    getData.getInitValues()
-    .then(function(result){
+Router.get('/events/all', (req, res) => {
+    getData.getEvents()
+    .then((result) => {
         res.json(result)
     })
     .catch(function(error){
@@ -15,12 +15,12 @@ Router.get('/init', (req, res) => {
     
 })
 
-Router.post('/filter', (req, res) => {
-    getData.getFilter(req.body.data)
-    .then(function(result){
+Router.post('/login', (req, res) => {
+    getData.getUser(req.body)
+    .then((result) => {
         res.json(result)
     })
-    .catch(function(error){
+    .catch((error) => {
         console.log('Error: ' + error)
         res.sendStatus(500).json(error)
     })

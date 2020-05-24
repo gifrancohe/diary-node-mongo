@@ -9,16 +9,17 @@ var port         = port = process.env.PORT || 3000,
     app          = express(),
     Server       = http.createServer(app)     
 
-var Routing = require('./server/requestRounting.js')
+var Routers = require('./server/routers.js')
 var Insert  = require('./server/insertUser.js')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('client'))
 
-app.use('/', Routing)
+app.use('/diary', Routers)
 
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
+
 Insert.createUser((error, result) => {
     if(error) console.log(error)
     console.log(result)

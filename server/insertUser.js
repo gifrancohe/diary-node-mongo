@@ -1,15 +1,17 @@
-var User = require('./models.js')
+var Models = require('./models.js')
 
 module.exports.createUser = function( callback ) {
-    let Admin = new User({
+    let Admin = new Models.User({
+        id: Math.floor(Math.random() * 100),
         name: 'Administrator',
         user: 'admin',
         password: 'admin123',
-        email: 'admin@node.com'
+        email: 'admin@node.com',
+        status: 'Enable'
     })
 
     Admin.save((error) => {
         if(error) callback(error)
-        callback(null, "User created!")
+        callback(null, "User admin was created!")
     })
 }

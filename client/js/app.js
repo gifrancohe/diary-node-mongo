@@ -1,7 +1,7 @@
 
 class EventManager {
     constructor() {
-        this.urlBase = "/events"
+        this.urlBase = "diary/events"
         this.obtenerDataInicial()
         this.inicializarFormulario()
         this.guardarEvento()
@@ -87,7 +87,7 @@ class EventManager {
                 center: 'title',
                 right: 'month,agendaWeek,basicDay'
             },
-            defaultDate: '2016-11-01',
+            defaultDate: '2020-05-27',
             navLinks: true,
             editable: true,
             eventLimit: true,
