@@ -24,7 +24,6 @@ module.exports = {
         })
     },
     setEvent: (data, callback) => {
-        console.log(data)
         let event = new Models.Event({
             id: Math.floor(Math.random() * 10000),
             title: data.title,
@@ -38,20 +37,19 @@ module.exports = {
         })
         
     },
-    setEvent: (data, callback) => {
+    deleteEvent: (data, callback) => {
         console.log(data)
-        let event = new Models.Event({
-            id: Math.floor(Math.random() * 10000),
-            title: data.title,
-            start: data.start,
-            end: data.end,
-            owner: data.owner
+        Models.Event.deleteOne({id: data.id}, function(err) {
+            if(err) callback({'code': 500, 'message': 'Ocurrio un error: Error: ' + error})
+            callback({'code': 200, 'message': 'event deleted successfully'})
         })
-        event.save((error) => {
-            if(error)  callback({'code': 500, 'message': 'Ocurrio un error: Error: ' + error})
-            callback({'code': 200, 'message': 'event created successfully'})
+    },
+    updateEvent: (data, callback) => {
+        console.log(data)
+        Models.Event.update({id: data.id}, {$set: { start: data.start}}, function(err) {
+            if(err) callback({'code': 500, 'message': 'Ocurrio un error: Error: ' + error})
+            callback({'code': 200, 'message': 'event updated successfully'})
         })
-        
     }
 
 }

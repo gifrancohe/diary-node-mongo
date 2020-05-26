@@ -17,8 +17,9 @@ class EventManager {
 
     eliminarEvento(evento) {
         let eventId = evento.id
-        $.post('events/delete/'+eventId, {id: eventId}, (response) => {
-            alert(response)
+        let url = this.urlBase + "events/delete/" + eventId
+        $.post(url, {id: eventId}, (response) => {
+            console.log(response)
         })
     }
 
@@ -64,8 +65,10 @@ class EventManager {
 
     actualizarEvento(evento) {
         let eventId = evento.id
-        $.post('events/update/'+eventId, {id: eventId}, (response) => {
-            alert(response)
+        let start = evento.start.toISOString()
+        let url = this.urlBase + "events/update/" + eventId
+        $.post(url, {id: eventId, start: start}, (response) => {
+            alert(response.message)
         })
     }
 
@@ -110,6 +113,11 @@ class EventManager {
             timeFormat: 'H:mm',
             eventDrop: (event) => {
                 this.actualizarEvento(event)
+            },
+            drop: (info) => {
+                console.log(info    )
+                //console.log(info.event.title + " was dropped on " + info.event.start.toISOString());
+                //this.actualizarEvento(event)
             },
             events: eventos,
             eventDragStart: (event,jsEvent) => {
