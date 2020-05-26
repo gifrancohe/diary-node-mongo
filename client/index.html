@@ -15,6 +15,7 @@
       <div class="fields-Container">
         <input type="text" id="user" placeholder="Usuario..." />
         <input type="password" id="pass" placeholder="Contraseña..." />
+        <span class="error-message hidden"></span>
         <button id="login" class="loginButton">Ingresar</button>
       </div>
     </div>
@@ -26,8 +27,12 @@
             if (nombreUsuario.val() != "" && pass.val() != "") {
                 $.post('/diary/login',{user: nombreUsuario.val(), pass: pass.val()}, function(response) {
                     console.log(response)
-                    if (response == "Validado") {
+                    if (response.code == 200) {
+                        window.localStorage.setItem('session', JSON.stringify(response.message));
                         window.location.href = "http://localhost:3000/main.html"
+                    }else {
+                      $('.error-message').html(response.message);
+                      $('.error-message').removeClass('hidden');
                     }
                 })
             } else {

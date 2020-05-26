@@ -20,10 +20,10 @@ app.use('/diary', Routers)
 
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
 
-Insert.createUser((error, result) => {
+/*Insert.createUser((error, result) => {
     if(error) console.log(error)
     console.log(result)
-})
+})*/
 
 Server.listen(port, function(){
   console.log('Server is listeing in port: ' + port)

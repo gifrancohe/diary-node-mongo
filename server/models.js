@@ -15,12 +15,10 @@ var userSchema = new Schema({
 
 var eventSchema = new Schema({
     id: { type: Number, require: true, unique:true },
-    name: {type: String, require: true},
-    startDate: {type: Date, require: true},
-    endDate: {type: Date, require: true},
-    startTime: {type: Date, require: false},
-    endTime: {type: Date, require: false},
-    allDay: { type: String, require: false, enum: ['Yes', 'No'] },
+    title: {type: String, require: true},
+    start: {type: String, require: true},
+    end: {type: String, require: false},
+    owner: {type: String, require: true},
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 })

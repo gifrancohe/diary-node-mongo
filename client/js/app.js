@@ -1,14 +1,15 @@
 
 class EventManager {
     constructor() {
-        this.urlBase = "diary/events"
+        this.urlBase = "diary/"
         this.obtenerDataInicial()
         this.inicializarFormulario()
         this.guardarEvento()
     }
 
     obtenerDataInicial() {
-        let url = this.urlBase + "/all"
+        let session = JSON.parse(window.localStorage.getItem('session'))
+        let url = this.urlBase + "events/all/" + session.user
         $.get(url, (response) => {
             this.inicializarCalendario(response)
         })
@@ -16,7 +17,7 @@ class EventManager {
 
     eliminarEvento(evento) {
         let eventId = evento.id
-        $.post('/events/delete/'+eventId, {id: eventId}, (response) => {
+        $.post('events/delete/'+eventId, {id: eventId}, (response) => {
             alert(response)
         })
     }
@@ -38,20 +39,33 @@ class EventManager {
                 start = start + 'T' + start_hour
                 end = end + 'T' + end_hour
             }
-            let url = this.urlBase + "/new"
+            let url = this.urlBase + "events/saveEvent"
             if (title != "" && start != "") {
+                var owner = JSON.parse(window.localStorage.getItem('session'))
                 let ev = {
                     title: title,
                     start: start,
-                    end: end
+                    end: end,
+                    owner: owner.user
                 }
                 $.post(url, ev, (response) => {
-                    alert(response)
+                    if(response.code == 200) {
+                        $('.calendario').fullCalendar('renderEvent', ev)
+                        alert(response.message)
+                    }else {
+                        alert(response.message)
+                    }
                 })
-                $('.calendario').fullCalendar('renderEvent', ev)
             } else {
                 alert("Complete los campos obligatorios para el evento")
             }
+        })
+    }
+
+    actualizarEvento(evento) {
+        let eventId = evento.id
+        $.post('events/update/'+eventId, {id: eventId}, (response) => {
+            alert(response)
         })
     }
 
@@ -112,11 +126,13 @@ class EventManager {
                 if (jsEvent.pageX >= x1 && jsEvent.pageX<= x2 &&
                     jsEvent.pageY >= y1 && jsEvent.pageY <= y2) {
                         this.eliminarEvento(event)
-                        $('.calendario').fullCalendar('removeEvents', event.id);
-                    }
+                        $('.calendario').fullCalendar('removeEvents', event._id);
                 }
-            })
-        }
-    }
+                $('.delete').find('img').attr('src', "img/delete.png");
+            }
 
-    const Manager = new EventManager()
+        })
+    }
+}
+
+const Manager = new EventManager()
