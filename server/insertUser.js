@@ -5,7 +5,7 @@ module.exports.createUser = function( callback ) {
         id: Math.floor(Math.random() * 100),
         name: 'Administrator',
         user: 'admin',
-        password: 'admin123',
+        password: 'admin',
         email: 'admin@node.com',
         status: 'Enable'
     })

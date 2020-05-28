@@ -2,9 +2,11 @@
 class EventManager {
     constructor() {
         this.urlBase = "diary/"
+        this.validateSession()
         this.obtenerDataInicial()
         this.inicializarFormulario()
         this.guardarEvento()
+        this.logout()
     }
 
     obtenerDataInicial() {
@@ -114,11 +116,6 @@ class EventManager {
             eventDrop: (event) => {
                 this.actualizarEvento(event)
             },
-            drop: (info) => {
-                console.log(info    )
-                //console.log(info.event.title + " was dropped on " + info.event.start.toISOString());
-                //this.actualizarEvento(event)
-            },
             events: eventos,
             eventDragStart: (event,jsEvent) => {
                 $('.delete').find('img').attr('src', "img/trash-open.png");
@@ -140,6 +137,21 @@ class EventManager {
             }
 
         })
+    }
+
+    logout() {
+        $('#logout').on('click', (ev) => {
+            ev.preventDefault()
+            window.localStorage.clear();
+            window.location.href = "http://localhost:3000/"
+        })
+    }
+
+    validateSession() {
+        let session = window.localStorage.getItem('session')
+        if(!session) {
+            window.location.href = "http://localhost:3000/"
+        }
     }
 }
 
